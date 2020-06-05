@@ -1,28 +1,12 @@
-<!-- Explain here what benefits does your feature brings -->
-## Why
+<!-- Explain here what output did you get running that feature -->
+## What did you get
 
-<!-- Be descriptive on which tasks are necessary to solve this problem -->
-## Tasks
+<!-- Which output did you expect? -->
+## What was expected
 
-- [ ]
-- [ ]
-- [ ]
+<!-- Which settings did you execute this code -->
+## System Settings
 
-<!-- Set which Envs already has this feature -->
-## Env
-
-- [ ] Dev
-- [ ] Prod
-
-<!-- Did you update the readme with your new feature -->
-## Documentation
-
-- [ ] Yes
-- [ ] No
-- [ ] It Doesn't Apply
-
-<!-- Did you wrote tests? -->
-## Does my feature has tests?
-
-- [ ] Yes
-- [ ] No
+```
+go_version: go1.14.3 linux/amd64
+```
