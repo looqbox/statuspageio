@@ -1,7 +1,7 @@
-package client
+package statuspageio
 
 import (
-        "github.com/looqbox/statuspage-go/pkg/root"
+        "github.com/looqbox/statuspage-go/internal/root"
 )
 
 func Connect(pageId string, apiKey string) root.BaseRequest {
