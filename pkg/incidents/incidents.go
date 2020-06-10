@@ -16,41 +16,63 @@ type IncidentBody struct {
 
 func ListIncidents(baseRequest root.BaseRequest, searchQuery string) root.RequestParam {
 
-	body := ""
-	if searchQuery != "" {
-		body = "q=" + searchQuery
-	}
+        body := ""
+        if searchQuery != "" {
+                body = "q=" + searchQuery
+        }
 
-	request := root.RequestParam{
-		Url:     baseRequest.Url + "/incidents",
-		Method:  "GET",
-		Headers: baseRequest.Headers,
-		Body:    body,
-	}
+        request := root.RequestParam{
+                Url:     baseRequest.Url + "/incidents",
+                Method:  "GET",
+                Headers: baseRequest.Headers,
+                Body:    body,
+        }
 
-	return request
+        return request
 }
 
 func GetIncident(baseRequest root.BaseRequest, incidentId string) root.RequestParam {
 
-	request := root.RequestParam{
-		Url:     baseRequest.Url + "/incidents/" + incidentId,
-		Method:  "GET",
-		Headers: baseRequest.Headers,
-		Body:    "",
-	}
+        request := root.RequestParam{
+                Url:     baseRequest.Url + "/incidents/" + incidentId,
+                Method:  "GET",
+                Headers: baseRequest.Headers,
+                Body:    "",
+        }
 
-	return request
+        return request
 }
 
-func UpdateIncident(baseRequest root.BaseRequest, incidentId string, incidentBody root.IncidentBody) root.RequestJson {
+func UpdateIncident(baseRequest root.BaseRequest, incidentId string, incidentBody IncidentBody) root.RequestJson {
 
-	request := root.RequestJson{
-		Url:     baseRequest.Url + "/incidents/" + incidentId,
-		Method:  "PATCH",
-		Headers: baseRequest.Headers,
-		Body:    incidentBody,
-	}
+        request := root.RequestJson{
+                Url:     baseRequest.Url + "/incidents/" + incidentId,
+                Method:  "PATCH",
+                Headers: baseRequest.Headers,
+                Body:    incidentBody,
+        }
 
-	return request
+        return request
+}
+
+func CreateIncident(baseRequest root.BaseRequest, incidentBody IncidentBody) root.RequestJson {
+        request := root.RequestJson{
+                Url:     baseRequest.Url + "/incidents",
+                Method:  "POST",
+                Headers: baseRequest.Headers,
+                Body:    incidentBody,
+        }
+
+        return request
+}
+
+func DeleteIncident(baseRequest root.BaseRequest, incidentId string) root.RequestParam {
+        request := root.RequestParam{
+                Url:     baseRequest.Url + "/incidents/" + incidentId,
+                Method:  "DELETE",
+                Headers: baseRequest.Headers,
+                Body:    "",
+        }
+
+        return request
 }
