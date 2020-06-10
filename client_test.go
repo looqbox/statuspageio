@@ -1,11 +1,11 @@
-package client
+package statuspageio
 
 import (
         "testing"
 
         "github.com/stretchr/testify/assert"
 
-        "github.com/looqbox/statuspage-go/pkg/root"
+        "github.com/looqbox/statuspage-go/internal/root"
 )
 
 func TestConnect(t *testing.T) {
