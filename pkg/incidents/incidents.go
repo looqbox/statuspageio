@@ -1,8 +1,18 @@
 package incidents
 
 import (
-	"github.com/statuspage/pkg/root"
+        "github.com/statuspage/pkg/root"
 )
+
+type IncidentBody struct {
+        Name          string    `json:"name"`
+        Status        string    `json:"status"`
+        Impact        string    `json:"impact_override"`
+        Notification  bool      `json:"deliver_notifications"`
+        Body          string    `json:"body"`
+        Components    Component `json:"components"`
+        ComponentsIds []string  `json:"component_ids"`
+}
 
 func ListIncidents(baseRequest root.BaseRequest, searchQuery string) root.RequestParam {
 
