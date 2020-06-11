@@ -1,5 +1,5 @@
 // Package create to interact with statuspage.io API, created mainly to
-// interact with incidents creation/updating.
+// generate requests to manage incidents creation/update.
 package statuspageio
 
 import (
