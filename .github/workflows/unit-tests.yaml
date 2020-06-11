@@ -6,12 +6,13 @@ on:
       - master
 
 jobs:
-  build-and-test:
+  Unit-Tests:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-      uses: actions-contrib/go@v0.1.0
-    - name: Unit Tests
-      run: go test ./...
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '^1.14.3'
+      - run: go test ./...
