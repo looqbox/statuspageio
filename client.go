@@ -2,8 +2,7 @@
 // generate requests to manage incidents creation/update.
 package statuspageio
 
-import (
-)
+import ()
 
 // Basic struct to store values used for every request at Statuspage.io
 // API, like the base url and the authorization header
