@@ -22,10 +22,10 @@ type Header struct {
 // It needs a pageId and a apiKey that you can retrieve at the statuspage
 // manage page.
 func Connect(pageId string, apiKey string) BaseRequest {
-        request := root.BaseRequest{
+        request := BaseRequest{
                 Url: "https://api.statuspage.io/v1/pages/" + pageId,
-                Headers: []root.Header{
-                        root.Header{
+                Headers: []Header{
+                        Header{
                                 Name:  "Authorization",
                                 Value: "OAuth " + apiKey,
                         },
