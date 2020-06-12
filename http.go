@@ -1,50 +1,56 @@
 package statuspageio
 
 import (
-	"bytes"
-	"log"
-	"net/http"
-	"strings"
+        "bytes"
+        "encoding/json"
+        "log"
+        "net/http"
+        "strings"
 )
 
 func addHeaders(headers []Header, req *http.Request) {
-	for i := 0; i < len(headers); i++ {
-		req.Header.Add(headers[i].Name, headers[i].Value)
-	}
+        for i := 0; i < len(headers); i++ {
+                req.Header.Add(headers[i].Name, headers[i].Value)
+        }
 }
 
 func (request RequestParam) exec() *http.Response {
-	body := strings.NewReader(request.Body)
+        body := strings.NewReader(request.Body)
 
-	req, err := http.NewRequest(request.Method, request.Url, body)
-	if err != nil {
-		log.Fatal(err)
-	}
+        req, err := http.NewRequest(request.Method, request.Url, body)
+        if err != nil {
+                log.Fatal(err)
+        }
 
-	addHeaders(request.Headers, req)
+        addHeaders(request.Headers, req)
 
-	// Execute http request
-	res, err := request.Client.Do(req)
-	if err != nil {
-		log.Fatal(err)
-	}
+        // Execute http request
+        res, err := request.Client.Do(req)
+        if err != nil {
+                log.Fatal(err)
+        }
 
-	return res
+        return res
 }
 
 func (request RequestJson) exec() *http.Response {
-	req, err := http.NewRequest(request.Method, request.Url, bytes.NewBuffer(request.Body))
-	if err != nil {
-		log.Fatal(err)
-	}
+        bodyJson, err := json.Marshal(request.Body)
+        if err != nil {
+                log.Fatal(err)
+        }
+        
+        req, err := http.NewRequest(request.Method, request.Url, bytes.NewBuffer(bodyJson))
+        if err != nil {
+                log.Fatal(err)
+        }
 
-	addHeaders(request.Headers, req)
+        addHeaders(request.Headers, req)
 
-	// Execute http request
-	res, err := request.Client.Do(req)
-	if err != nil {
-		log.Fatal(err)
-	}
+        // Execute http request
+        res, err := request.Client.Do(req)
+        if err != nil {
+                log.Fatal(err)
+        }
 
-	return res
+        return res
 }
