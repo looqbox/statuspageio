@@ -2,13 +2,18 @@
 // , created mainly to generate requests to manage incidents creation/update.
 package statuspageio
 
-import ()
+import (
+	"net/http"
+	"time"
+)
 
 // BaseRequest struct store values used for every request at Statuspage.io API,
-// like the base url and the authorization header
+// like the base url and the authorization header, also includes a http.Client
+// to execute requests
 type BaseRequest struct {
 	Url     string
 	Headers []Header
+	Client  *http.Client
 }
 
 // Header struct save information in Header format
@@ -28,6 +33,9 @@ func Connect(pageId string, apiKey string) BaseRequest {
 				Name:  "Authorization",
 				Value: "OAuth " + apiKey,
 			},
+		},
+		Client: &http.Client{
+			Timeout: 30 * time.Second,
 		},
 	}
 

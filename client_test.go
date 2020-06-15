@@ -1,7 +1,9 @@
 package statuspageio
 
 import (
+	"net/http"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -17,6 +19,9 @@ func TestConnect(t *testing.T) {
 				Name:  "Authorization",
 				Value: "OAuth " + apiKey,
 			},
+		},
+		Client: &http.Client{
+			Timeout: 30 * time.Second,
 		},
 	}
 
