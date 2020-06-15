@@ -1,4 +1,4 @@
-module github.com/looqbox/statuspage-go
+module github.com/looqbox/statuspageio
 
 go 1.14
 
