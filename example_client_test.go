@@ -3,7 +3,7 @@ package statuspageio_test
 import (
 	"fmt"
 
-	"github.com/looqbox/statuspage-go"
+	"github.com/looqbox/statuspageio"
 )
 
 func ExampleConnect() {
