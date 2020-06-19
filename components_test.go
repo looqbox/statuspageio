@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	componentID = "PHrzHysLcKu0axEWLyg2tsaW7xKWwbRC"
+	componentId = "PHrzHysLcKu0axEWLyg2tsaW7xKWwbRC"
 )
 
 func TestListComponents(t *testing.T) {
@@ -20,8 +20,8 @@ func TestListComponents(t *testing.T) {
 	})
 	testServer := httptest.NewServer(h)
 
-	statuspage := Connect(pageID, apiKey)
-	statuspage.URL = "http://" + testServer.Listener.Addr().String()
+	statuspage := Connect(pageId, apiKey)
+	statuspage.Url = "http://" + testServer.Listener.Addr().String()
 
 	status, _ := statuspage.ListComponents()
 

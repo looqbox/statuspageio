@@ -18,9 +18,9 @@ var exampleBody = IncidentBody{
 	Notification: false,
 	Body:         "Test Body",
 	Components: Component{
-		ComponentID: "nd83293he9hr3",
+		ComponentId: "nd83293he9hr3",
 	},
-	ComponentsIDs: []string{"nfoeriu038d", "fnwe8789f"},
+	ComponentsIds: []string{"nfoeriu038d", "fnwe8789f"},
 }
 
 const (
@@ -28,9 +28,9 @@ const (
                 "Status": "ok"
         }`
 
-	pageID     = "wiV2d9pz8gdq0xAkNycXVcIEweV8KLw4"
+	pageId     = "wiV2d9pz8gdq0xAkNycXVcIEweV8KLw4"
 	apiKey     = "AsiSTLKioeurneEkdF41Q285y4d5I1sr"
-	incidentID = "PHrzHysLcKu0axEWLyg2tsaW7xKWwbRC"
+	incidentId = "PHrzHysLcKu0axEWLyg2tsaW7xKWwbRC"
 )
 
 func TestListIncidents(t *testing.T) {
@@ -41,8 +41,8 @@ func TestListIncidents(t *testing.T) {
 	})
 	testServer := httptest.NewServer(h)
 
-	statuspage := Connect(pageID, apiKey)
-	statuspage.URL = "http://" + testServer.Listener.Addr().String()
+	statuspage := Connect(pageId, apiKey)
+	statuspage.Url = "http://" + testServer.Listener.Addr().String()
 
 	status, _ := statuspage.ListIncidents("")
 
@@ -57,8 +57,8 @@ func TestGetIncidents(t *testing.T) {
 	})
 	testServer := httptest.NewServer(h)
 
-	statuspage := Connect(pageID, apiKey)
-	statuspage.URL = "http://" + testServer.Listener.Addr().String()
+	statuspage := Connect(pageId, apiKey)
+	statuspage.Url = "http://" + testServer.Listener.Addr().String()
 
 	status, _ := statuspage.GetIncident("")
 
@@ -77,10 +77,10 @@ func TestUpdateIncident(t *testing.T) {
 	})
 	testServer := httptest.NewServer(h)
 
-	statuspage := Connect(pageID, apiKey)
-	statuspage.URL = "http://" + testServer.Listener.Addr().String()
+	statuspage := Connect(pageId, apiKey)
+	statuspage.Url = "http://" + testServer.Listener.Addr().String()
 
-	status, _ := statuspage.UpdateIncident(incidentID, exampleBody)
+	status, _ := statuspage.UpdateIncident(incidentId, exampleBody)
 
 	assert.Equal(t, "200 OK", status)
 }
@@ -97,8 +97,8 @@ func TestCreateIncidents(t *testing.T) {
 	})
 	testServer := httptest.NewServer(h)
 
-	statuspage := Connect(pageID, apiKey)
-	statuspage.URL = "http://" + testServer.Listener.Addr().String()
+	statuspage := Connect(pageId, apiKey)
+	statuspage.Url = "http://" + testServer.Listener.Addr().String()
 
 	status, _ := statuspage.CreateIncident(exampleBody)
 
@@ -113,8 +113,8 @@ func TestDeleteIncident(t *testing.T) {
 	})
 	testServer := httptest.NewServer(h)
 
-	statuspage := Connect(pageID, apiKey)
-	statuspage.URL = "http://" + testServer.Listener.Addr().String()
+	statuspage := Connect(pageId, apiKey)
+	statuspage.Url = "http://" + testServer.Listener.Addr().String()
 
 	status, _ := statuspage.DeleteIncident("")
 

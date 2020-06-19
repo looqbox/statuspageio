@@ -14,12 +14,12 @@ type IncidentBody struct {
 	Notification  bool      `json:"deliver_notifications"`
 	Body          string    `json:"body"`
 	Components    Component `json:"components"`
-	ComponentsIDs []string  `json:"component_ids"`
+	ComponentsIds []string  `json:"component_ids"`
 }
 
 // Component mounts a nested json to be used at IncidentBody
 type Component struct {
-	ComponentID string `json:"component_id"`
+	ComponentId string `json:"component_id"`
 }
 
 // Request is a general interface used for requests
@@ -27,13 +27,23 @@ type Request interface {
 	exec() *http.Response
 }
 
-// Request saves information in a format reade to do a http request to
-// Statuspage IO
-type RequestFormat struct {
-	URL     string
+// RequestJson saves information in a format ready to do a http request with
+// `Content-Type: application/json` Header
+type RequestJson struct {
+	Url     string
 	Method  string
 	Headers []Header
-	Body    interface{}
+	Body    IncidentBody
+	Client  *http.Client
+}
+
+// RequestParam saves information in a format ready to do a http request with
+// query parameters
+type RequestParam struct {
+	Url     string
+	Method  string
+	Headers []Header
+	Body    string
 	Client  *http.Client
 }
 
