@@ -9,15 +9,18 @@ import (
 // ListComponents executes a request that returns a list of created components
 // at your Statuspage
 func (request BaseRequest) ListComponents() (string, []ComponentsResponse) {
-	finalRequest := RequestParam{
-		Url:     request.Url + "/components",
+	finalRequest := RequestFormat{
+		URL:     request.URL + "/components",
 		Method:  "GET",
 		Headers: request.Headers,
 		Body:    "",
 		Client:  request.Client,
 	}
 
-	res := finalRequest.exec()
+	res, err := finalRequest.exec()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	jsonData, err := ioutil.ReadAll(res.Body)
 	if err != nil {
