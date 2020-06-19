@@ -27,7 +27,7 @@ type Request interface {
 	exec() *http.Response
 }
 
-// Request saves information in a format reade to do a http request to
+// RequestFormat saves information in a format reade to do a http request to
 // Statuspage IO
 type RequestFormat struct {
 	URL     string

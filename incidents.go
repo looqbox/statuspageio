@@ -4,19 +4,18 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
-	"net/http"
 )
 
-func mountRequest(URL string, method string, headers []Header, body interface{}, client *http.Client) RequestFormat {
-	request := RequestFormat{
+func (request BaseRequest) mountRequest(URL string, method string, headers []Header, body interface{}) RequestFormat {
+	finalRequest := RequestFormat{
 		URL:     URL,
 		Method:  method,
 		Headers: headers,
 		Body:    body,
-		Client:  client,
+		Client:  request.Client,
 	}
 
-	return request
+	return finalRequest
 }
 
 // ListIncidents executes a request and return a list of reported incidents at Statuspage
@@ -27,7 +26,7 @@ func (request BaseRequest) ListIncidents(searchQuery string) (string, []Incident
 	}
 
 	URL := request.URL + "/incidents"
-	finalRequest := mountRequest(URL, "GET", request.Headers, body, request.Client)
+	finalRequest := request.mountRequest(URL, "GET", request.Headers, body)
 
 	res, err := finalRequest.exec()
 	if err != nil {
@@ -48,7 +47,7 @@ func (request BaseRequest) ListIncidents(searchQuery string) (string, []Incident
 // GetIncident retrieve information about a specific incident
 func (request BaseRequest) GetIncident(incidentID string) (string, IncidentsResponse) {
 	URL := request.URL + "/incidents/" + incidentID
-	finalRequest := mountRequest(URL, "GET", request.Headers, "", request.Client)
+	finalRequest := request.mountRequest(URL, "GET", request.Headers, "")
 
 	res, err := finalRequest.exec()
 	if err != nil {
@@ -69,7 +68,7 @@ func (request BaseRequest) GetIncident(incidentID string) (string, IncidentsResp
 // UpdateIncident Updates one incident information
 func (request BaseRequest) UpdateIncident(incidentID string, incidentBody IncidentBody) (string, IncidentsResponse) {
 	URL := request.URL + "/incidents/" + incidentID
-	finalRequest := mountRequest(URL, "PATCH", request.Headers, incidentBody, request.Client)
+	finalRequest := request.mountRequest(URL, "PATCH", request.Headers, incidentBody)
 
 	res, err := finalRequest.exec()
 	if err != nil {
@@ -90,7 +89,7 @@ func (request BaseRequest) UpdateIncident(incidentID string, incidentBody Incide
 // CreateIncident creates a new incident at the page
 func (request BaseRequest) CreateIncident(incidentBody IncidentBody) (string, IncidentsResponse) {
 	URL := request.URL + "/incidents"
-	finalRequest := mountRequest(URL, "POST", request.Headers, incidentBody, request.Client)
+	finalRequest := request.mountRequest(URL, "POST", request.Headers, incidentBody)
 
 	res, err := finalRequest.exec()
 	if err != nil {
@@ -111,7 +110,7 @@ func (request BaseRequest) CreateIncident(incidentBody IncidentBody) (string, In
 // DeleteIncident deletes an incident from the page
 func (request BaseRequest) DeleteIncident(incidentID string) (string, IncidentsResponse) {
 	URL := request.URL + "/incidents/" + incidentID
-	finalRequest := mountRequest(URL, "DELETE", request.Headers, "", request.Client)
+	finalRequest := request.mountRequest(URL, "DELETE", request.Headers, "")
 
 	res, err := finalRequest.exec()
 	if err != nil {
