@@ -4,7 +4,20 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
+	"net/http"
 )
+
+func mountRequest(URL string, method string, headers []Header, body interface{}, client *http.Client) RequestFormat {
+	request := RequestFormat{
+		URL:     URL,
+		Method:  method,
+		Headers: headers,
+		Body:    body,
+		Client:  client,
+	}
+
+	return request
+}
 
 // ListIncidents executes a request and return a list of reported incidents at Statuspage
 func (request BaseRequest) ListIncidents(searchQuery string) (string, []IncidentsResponse) {
@@ -13,15 +26,13 @@ func (request BaseRequest) ListIncidents(searchQuery string) (string, []Incident
 		body = "q=" + searchQuery
 	}
 
-	finalRequest := RequestParam{
-		Url:     request.Url + "/incidents",
-		Method:  "GET",
-		Headers: request.Headers,
-		Body:    body,
-		Client:  request.Client,
-	}
+	URL := request.URL + "/incidents"
+	finalRequest := mountRequest(URL, "GET", request.Headers, body, request.Client)
 
-	res := finalRequest.exec()
+	res, err := finalRequest.exec()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	jsonData, err := ioutil.ReadAll(res.Body)
 	if err != nil {
@@ -35,17 +46,14 @@ func (request BaseRequest) ListIncidents(searchQuery string) (string, []Incident
 }
 
 // GetIncident retrieve information about a specific incident
-func (request BaseRequest) GetIncident(incidentId string) (string, IncidentsResponse) {
+func (request BaseRequest) GetIncident(incidentID string) (string, IncidentsResponse) {
+	URL := request.URL + "/incidents/" + incidentID
+	finalRequest := mountRequest(URL, "GET", request.Headers, "", request.Client)
 
-	finalRequest := RequestParam{
-		Url:     request.Url + "/incidents/" + incidentId,
-		Method:  "GET",
-		Headers: request.Headers,
-		Body:    "",
-		Client:  request.Client,
+	res, err := finalRequest.exec()
+	if err != nil {
+		log.Fatal(err)
 	}
-
-	res := finalRequest.exec()
 
 	jsonData, err := ioutil.ReadAll(res.Body)
 	if err != nil {
@@ -59,17 +67,14 @@ func (request BaseRequest) GetIncident(incidentId string) (string, IncidentsResp
 }
 
 // UpdateIncident Updates one incident information
-func (request BaseRequest) UpdateIncident(incidentId string, incidentBody IncidentBody) (string, IncidentsResponse) {
+func (request BaseRequest) UpdateIncident(incidentID string, incidentBody IncidentBody) (string, IncidentsResponse) {
+	URL := request.URL + "/incidents/" + incidentID
+	finalRequest := mountRequest(URL, "PATCH", request.Headers, incidentBody, request.Client)
 
-	finalRequest := RequestJson{
-		Url:     request.Url + "/incidents/" + incidentId,
-		Method:  "PATCH",
-		Headers: request.Headers,
-		Body:    incidentBody,
-		Client:  request.Client,
+	res, err := finalRequest.exec()
+	if err != nil {
+		log.Fatal(err)
 	}
-
-	res := finalRequest.exec()
 
 	jsonData, err := ioutil.ReadAll(res.Body)
 	if err != nil {
@@ -84,15 +89,13 @@ func (request BaseRequest) UpdateIncident(incidentId string, incidentBody Incide
 
 // CreateIncident creates a new incident at the page
 func (request BaseRequest) CreateIncident(incidentBody IncidentBody) (string, IncidentsResponse) {
-	finalRequest := RequestJson{
-		Url:     request.Url + "/incidents",
-		Method:  "POST",
-		Headers: request.Headers,
-		Body:    incidentBody,
-		Client:  request.Client,
-	}
+	URL := request.URL + "/incidents"
+	finalRequest := mountRequest(URL, "POST", request.Headers, incidentBody, request.Client)
 
-	res := finalRequest.exec()
+	res, err := finalRequest.exec()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	jsonData, err := ioutil.ReadAll(res.Body)
 	if err != nil {
@@ -106,16 +109,14 @@ func (request BaseRequest) CreateIncident(incidentBody IncidentBody) (string, In
 }
 
 // DeleteIncident deletes an incident from the page
-func (request BaseRequest) DeleteIncident(incidentId string) (string, IncidentsResponse) {
-	finalRequest := RequestParam{
-		Url:     request.Url + "/incidents/" + incidentId,
-		Method:  "DELETE",
-		Headers: request.Headers,
-		Body:    "",
-		Client:  request.Client,
-	}
+func (request BaseRequest) DeleteIncident(incidentID string) (string, IncidentsResponse) {
+	URL := request.URL + "/incidents/" + incidentID
+	finalRequest := mountRequest(URL, "DELETE", request.Headers, "", request.Client)
 
-	res := finalRequest.exec()
+	res, err := finalRequest.exec()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	jsonData, err := ioutil.ReadAll(res.Body)
 	if err != nil {

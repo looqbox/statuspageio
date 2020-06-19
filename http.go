@@ -3,6 +3,8 @@ package statuspageio
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
+	"io"
 	"log"
 	"net/http"
 	"strings"
@@ -14,10 +16,22 @@ func addHeaders(headers []Header, req *http.Request) {
 	}
 }
 
-func (request RequestParam) exec() *http.Response {
-	body := strings.NewReader(request.Body)
+func (request RequestFormat) exec() (*http.Response, error) {
+	var body io.Reader
+	switch request.Body.(type) {
+	default:
+		return nil, errors.New("Body type not recognized")
+	case string:
+		body = strings.NewReader(request.Body.(string))
+	case IncidentBody:
+		bodyJSON, err := json.Marshal(request.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		body = bytes.NewBuffer(bodyJSON)
+	}
 
-	req, err := http.NewRequest(request.Method, request.Url, body)
+	req, err := http.NewRequest(request.Method, request.URL, body)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -30,27 +44,5 @@ func (request RequestParam) exec() *http.Response {
 		log.Fatal(err)
 	}
 
-	return res
-}
-
-func (request RequestJson) exec() *http.Response {
-	bodyJson, err := json.Marshal(request.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	req, err := http.NewRequest(request.Method, request.Url, bytes.NewBuffer(bodyJson))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	addHeaders(request.Headers, req)
-
-	// Execute http request
-	res, err := request.Client.Do(req)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return res
+	return res, nil
 }
