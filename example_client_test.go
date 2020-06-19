@@ -11,7 +11,7 @@ func ExampleConnect() {
 	apiKey := "5OCMVqruAKqXsZpT5bbrs3ISgsgMu01Z"
 
 	request := statuspageio.Connect(pageId, apiKey)
-	fmt.Println(request.Url, request.Headers)
+	fmt.Println(request.URL, request.Headers)
 	// Output:
 	// https://api.statuspage.io/v1/pages/tLwrSv54NJCJWHYUzLl3n0dMngEc9Cr8 [{Authorization OAuth 5OCMVqruAKqXsZpT5bbrs3ISgsgMu01Z}]
 }

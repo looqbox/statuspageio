@@ -9,11 +9,11 @@ import (
 )
 
 func TestConnect(t *testing.T) {
-	pageId := "wiV2d9pz8gdq0xAkNycXVcIEweV8KLw4"
+	pageID := "wiV2d9pz8gdq0xAkNycXVcIEweV8KLw4"
 	apiKey := "AsiSTLKioeurneEkdF41Q285y4d5I1sr"
 
 	expectedResult := BaseRequest{
-		Url: "https://api.statuspage.io/v1/pages/" + pageId,
+		URL: "https://api.statuspage.io/v1/pages/" + pageID,
 		Headers: []Header{
 			Header{
 				Name:  "Authorization",
@@ -25,7 +25,7 @@ func TestConnect(t *testing.T) {
 		},
 	}
 
-	result := Connect(pageId, apiKey)
+	result := Connect(pageID, apiKey)
 
 	assert.Equal(t, expectedResult, result)
 }
