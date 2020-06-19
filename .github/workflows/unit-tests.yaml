@@ -22,7 +22,7 @@ jobs:
         with:
           go-version: '^1.14.3'
       - uses: paambaati/codeclimate-action@v2.2.4
-      env:
-        CC_TEST_REPORTER_ID: 19489a12fb0b8133760b44d9bb24efd29c6ca58f5418627f2af15e95a86a58d3
-      with:
-        coverageCommand: go test -cover -coverprofile=cover.out'
+        env:
+          CC_TEST_REPORTER_ID: 19489a12fb0b8133760b44d9bb24efd29c6ca58f5418627f2af15e95a86a58d3
+        with:
+          coverageCommand: go test -cover -coverprofile=cover.out'
