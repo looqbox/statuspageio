@@ -6,7 +6,6 @@ import (
         "encoding/json"
         "errors"
         "io"
-        "log"
         "net/http"
         "strings"
 )

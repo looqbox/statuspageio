@@ -1,7 +1,6 @@
 package statuspageio
 
 import (
-        "log"
         "bytes"
         "encoding/json"
         "io/ioutil"
