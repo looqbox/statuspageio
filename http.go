@@ -1,11 +1,11 @@
 package statuspageio
 
 import (
-        "io/ioutil"
         "bytes"
         "encoding/json"
         "errors"
         "io"
+        "log"
         "net/http"
         "strings"
 )
