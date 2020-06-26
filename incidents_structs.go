@@ -5,6 +5,10 @@ import (
 	"time"
 )
 
+type Incident struct {
+	Incident IncidentBody `json:"incident"`
+}
+
 // IncidentBody saves information in a format required by statuspage.io API to
 // execute requests to interact with incidents at the site
 type IncidentBody struct {
