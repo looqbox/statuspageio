@@ -5,7 +5,7 @@ import (
 )
 
 // ComponentsResponse stores response information for Components requests
-type ComponentsResponse []struct {
+type ComponentsResponse struct {
 	ID                 string    `json:"id"`
 	PageID             string    `json:"page_id"`
 	GroupID            string    `json:"group_id"`
