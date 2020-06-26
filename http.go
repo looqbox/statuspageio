@@ -30,7 +30,7 @@ func (request RequestFormat) exec() (*http.Response, error) {
 		}
 
 		request.Headers = append(request.Headers, header)
-	case Incident:
+	case incident:
 		bodyJSON, err := json.Marshal(request.Body)
 		if err != nil {
 			log.Fatal(err)

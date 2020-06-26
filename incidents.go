@@ -68,7 +68,7 @@ func (request BaseRequest) GetIncident(incidentID string) (string, IncidentsResp
 // UpdateIncident Updates one incident information
 func (request BaseRequest) UpdateIncident(incidentID string, incidentBody IncidentBody) (string, IncidentsResponse) {
 	URL := request.URL + "/incidents/" + incidentID
-	incident := Incident{
+	incident := incident{
 		Incident: incidentBody,
 	}
 	finalRequest := request.mountRequest(URL, "PATCH", request.Headers, incident)
@@ -92,7 +92,7 @@ func (request BaseRequest) UpdateIncident(incidentID string, incidentBody Incide
 // CreateIncident creates a new incident at the page
 func (request BaseRequest) CreateIncident(incidentBody IncidentBody) (string, IncidentsResponse) {
 	URL := request.URL + "/incidents"
-	incident := Incident{
+	incident := incident{
 		Incident: incidentBody,
 	}
 	finalRequest := request.mountRequest(URL, "POST", request.Headers, incident)

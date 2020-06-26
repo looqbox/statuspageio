@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type Incident struct {
+type incident struct {
 	Incident IncidentBody `json:"incident"`
 }
 
