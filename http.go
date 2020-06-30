@@ -18,15 +18,26 @@ func addHeaders(headers []Header, req *http.Request) {
 
 func (request RequestFormat) exec() (*http.Response, error) {
 	var body io.Reader
+	var header Header
 	switch request.Body.(type) {
 	default:
 		return nil, errors.New("Body type not recognized")
 	case string:
 		body = strings.NewReader(request.Body.(string))
-	case IncidentBody:
+		header = Header{
+			Name:  "Content-Type",
+			Value: "application/x-www-form-urlencoded",
+		}
+
+		request.Headers = append(request.Headers, header)
+	case incident:
 		bodyJSON, err := json.Marshal(request.Body)
 		if err != nil {
 			log.Fatal(err)
+		}
+		header = Header{
+			Name:  "Content-Type",
+			Value: "application/json",
 		}
 		body = bytes.NewBuffer(bodyJSON)
 	}

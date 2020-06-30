@@ -1,6 +1,7 @@
 package statuspageio
 
 import (
+	// "log"
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
@@ -66,13 +67,16 @@ func TestGetIncidents(t *testing.T) {
 }
 
 func TestUpdateIncident(t *testing.T) {
+	testBody := incident{
+		Incident: exampleBody,
+	}
 	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "OAuth "+apiKey, r.Header.Get("Authorization"))
 		assert.Equal(t, "PATCH", r.Method)
-		var body IncidentBody
+		var body incident
 		responseBody, _ := ioutil.ReadAll(r.Body)
 		json.NewDecoder(bytes.NewBuffer(responseBody)).Decode(&body)
-		assert.Equal(t, exampleBody, body)
+		assert.Equal(t, testBody, body)
 		w.Write([]byte(okResponse))
 	})
 	testServer := httptest.NewServer(h)
@@ -86,13 +90,16 @@ func TestUpdateIncident(t *testing.T) {
 }
 
 func TestCreateIncidents(t *testing.T) {
+	testBody := incident{
+		Incident: exampleBody,
+	}
 	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "OAuth "+apiKey, r.Header.Get("Authorization"))
 		assert.Equal(t, "POST", r.Method)
-		var body IncidentBody
+		var body incident
 		responseBody, _ := ioutil.ReadAll(r.Body)
 		json.NewDecoder(bytes.NewBuffer(responseBody)).Decode(&body)
-		assert.Equal(t, exampleBody, body)
+		assert.Equal(t, testBody, body)
 		w.Write([]byte(okResponse))
 	})
 	testServer := httptest.NewServer(h)
