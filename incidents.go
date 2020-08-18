@@ -44,6 +44,29 @@ func (request BaseRequest) ListIncidents(searchQuery string) (string, []Incident
 	return res.Status, structuredResponse
 }
 
+// ListIncidents executes a request and return a list of unresolved incidents at Statuspage
+func (request BaseRequest) ListUnresolvedIncidents() (string, []IncidentsResponse) {
+	body := ""
+
+	URL := request.URL + "/incidents/unresolved"
+	finalRequest := request.mountRequest(URL, "GET", request.Headers, body)
+
+	res, err := finalRequest.exec()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	jsonData, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var structuredResponse []IncidentsResponse
+	json.Unmarshal([]byte(jsonData), &structuredResponse)
+
+	return res.Status, structuredResponse
+}
+
 // GetIncident retrieve information about a specific incident
 func (request BaseRequest) GetIncident(incidentID string) (string, IncidentsResponse) {
 	URL := request.URL + "/incidents/" + incidentID
