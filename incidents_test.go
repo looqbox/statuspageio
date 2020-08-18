@@ -1,10 +1,10 @@
 package statuspageio
 
 import (
-	// "log"
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -12,16 +12,24 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var exampleBody = IncidentBody{
-	Name:         "Test Incident",
-	Status:       "Investigating",
-	Impact:       "Minor",
-	Notification: false,
-	Body:         "Test Body",
-	Components: Component{
-		ComponentID: "nd83293he9hr3",
-	},
-	ComponentsIDs: []string{"nfoeriu038d", "fnwe8789f"},
+func setBody() IncidentBody {
+	var componentBody json.RawMessage
+	var componentBodyText = `{"odspgure9nre234":"operational"}`
+	if err := json.Unmarshal([]byte(componentBodyText), &componentBody); err != nil {
+		log.Fatal(err)
+	}
+
+	var exampleBody = IncidentBody{
+		Name:          "Test Incident",
+		Status:        "Investigating",
+		Impact:        "Minor",
+		Notification:  false,
+		Body:          "Test Body",
+		Components:    &componentBody,
+		ComponentsIDs: []string{"nfoeriu038d", "fnwe8789f"},
+	}
+
+	return exampleBody
 }
 
 const (
@@ -83,6 +91,7 @@ func TestGetIncidents(t *testing.T) {
 }
 
 func TestUpdateIncident(t *testing.T) {
+	exampleBody := setBody()
 	testBody := incident{
 		Incident: exampleBody,
 	}
@@ -106,6 +115,7 @@ func TestUpdateIncident(t *testing.T) {
 }
 
 func TestCreateIncidents(t *testing.T) {
+	exampleBody := setBody()
 	testBody := incident{
 		Incident: exampleBody,
 	}
