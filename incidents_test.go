@@ -50,6 +50,22 @@ func TestListIncidents(t *testing.T) {
 	assert.Equal(t, "200 OK", status)
 }
 
+func TestListUnresolvedIncidents(t *testing.T) {
+	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, "OAuth "+apiKey, r.Header.Get("Authorization"))
+		assert.Equal(t, "GET", r.Method)
+		w.Write([]byte(okResponse))
+	})
+	testServer := httptest.NewServer(h)
+
+	statuspage := Connect(pageID, apiKey)
+	statuspage.URL = "http://" + testServer.Listener.Addr().String()
+
+	status, _ := statuspage.ListUnresolvedIncidents()
+
+	assert.Equal(t, "200 OK", status)
+}
+
 func TestGetIncidents(t *testing.T) {
 	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "OAuth "+apiKey, r.Header.Get("Authorization"))
