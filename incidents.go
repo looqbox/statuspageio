@@ -44,7 +44,7 @@ func (request BaseRequest) ListIncidents(searchQuery string) (string, []Incident
 	return res.Status, structuredResponse
 }
 
-// ListIncidents executes a request and return a list of unresolved incidents at Statuspage
+// ListUnresolvedIncidents executes a request and return a list of unresolved incidents at Statuspage
 func (request BaseRequest) ListUnresolvedIncidents() (string, []IncidentsResponse) {
 	body := ""
 
