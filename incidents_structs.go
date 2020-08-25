@@ -1,6 +1,7 @@
 package statuspageio
 
 import (
+	"encoding/json"
 	"net/http"
 	"time"
 )
@@ -12,18 +13,13 @@ type incident struct {
 // IncidentBody saves information in a format required by statuspage.io API to
 // execute requests to interact with incidents at the site
 type IncidentBody struct {
-	Name          string    `json:"name"`
-	Status        string    `json:"status"`
-	Impact        string    `json:"impact_override"`
-	Notification  bool      `json:"deliver_notifications"`
-	Body          string    `json:"body"`
-	Components    Component `json:"components"`
-	ComponentsIDs []string  `json:"component_ids"`
-}
-
-// Component mounts a nested json to be used at IncidentBody
-type Component struct {
-	ComponentID string `json:"component_id"`
+	Name          string           `json:"name"`
+	Status        string           `json:"status"`
+	Impact        string           `json:"impact_override"`
+	Notification  bool             `json:"deliver_notifications"`
+	Body          string           `json:"body"`
+	Components    *json.RawMessage `json:"components"`
+	ComponentsIDs []string         `json:"component_ids"`
 }
 
 // Request is a general interface used for requests
